@@ -1,0 +1,43 @@
+<div style="max-width: 1000px; margin: 2rem auto; color: #fff;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="margin: 0; font-size: 1.8rem;">👥 Clientes</h1>
+    <%= link_to "+ NOVO CLIENTE", new_cliente_path, style: "background: #00f2fe; color: #000; font-weight: bold; padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none;" %>
+  </div>
+
+  <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 12px; overflow: hidden;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr style="border-bottom: 1px solid #2a3439; background: rgba(0,0,0,0.2); color: #888;">
+          <th style="padding: 1rem;">Nome</th>
+          <th style="padding: 1rem;">Empresa</th>
+          <th style="padding: 1rem;">Telefone</th>
+          <th style="padding: 1rem;">E-mail</th>
+          <th style="padding: 1rem;">Localidade</th>
+          <th style="padding: 1rem; text-align: right;">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @clientes.each do |cliente| %>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 1rem; font-weight: bold; color: #00f2fe;"><%= cliente.nome %></td>
+            <td style="padding: 1rem;"><%= cliente.empresa.presence || "-" %></td>
+            <td style="padding: 1rem;"><%= cliente.telefone.presence || "-" %></td>
+            <td style="padding: 1rem;"><%= cliente.email.presence || "-" %></td>
+            <td style="padding: 1rem;">
+              <%= [cliente.cidade, cliente.estado].reject(&:blank?).join("/") rescue "-" %>
+            </td>
+            <td style="padding: 1rem; text-align: right;">
+              <%= link_to "Ver", cliente_path(cliente), style: "color: #00f2fe; text-decoration: none; margin-right: 0.5rem;" %>
+              <%= link_to "Editar", edit_cliente_path(cliente), style: "color: #aaa; text-decoration: none;" %>
+            </td>
+          </tr>
+        <% end %>
+        <% if @clientes.empty? %>
+          <tr>
+            <td colspan="6" style="padding: 2rem; text-align: center; color: #888;">Nenhum cliente cadastrado ainda.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

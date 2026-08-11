@@ -1,0 +1,30 @@
+<div class="page-header">
+  <h1>📦 <span>Produtos</span></h1>
+  <%= link_to "+ Novo Produto", new_produto_path, class: "btn-novo" %>
+</div>
+
+<div class="produtos-wrap">
+  <% if @produtos.any? %>
+    <div class="produtos-grid">
+      <% @produtos.each do |produto| %>
+        <% qtd = produto.quantidade || 0 %>
+        <% minimo = produto.estoque_minimo || 5 %>
+        <% cor = qtd <= 0 ? "var(--red)" : (qtd <= minimo ? "var(--orange)" : "var(--green)") %>
+        <% pct = [(qtd.to_f / [minimo * 3, 1].max * 100), 100].min %>
+
+        <%= link_to produto_path(produto), class: "produto-card" do %>
+          <div class="produto-emoji"><%= produto.emoji.presence || "📦" %></div>
+          <div class="produto-nome"><%= produto.nome %></div>
+          <div class="produto-cat"><%= produto.categoria.presence || "Sem categoria" %></div>
+          <div class="produto-info">
+            <div class="produto-preco">R$ <%= number_with_precision(produto.preco_venda || 0, precision: 2) %></div>
+            <div class="produto-estoque" style="color:<%= cor %>"><%= qtd %> un.</div>
+          </div>
+          <div class="stock-bar"><div class="stock-fill" style="width:<%= pct %>%;background:<%= cor %>"></div></div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-box">Nenhum produto cadastrado ainda. Clique em "Novo Produto" pra começar.</div>
+  <% end %>
+</div>

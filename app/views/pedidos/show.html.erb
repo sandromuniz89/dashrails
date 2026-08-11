@@ -1,0 +1,79 @@
+<div style="max-width: 750px; margin: 2rem auto; padding: 1.5rem; background-color: var(--card-bg, #12181b); border-radius: 12px; border: 1px solid var(--border-color, #2a3439); color: #fff;">
+  
+  <% if notice.present? %>
+    <p style="color: #00f2fe; background: rgba(0,242,254,0.1); padding: 0.75rem; border-radius: 6px; margin-bottom: 1.5rem;"><%= notice %></p>
+  <% end %>
+
+  <!-- Cabeçalho do Pedido -->
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a3439; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+    <div>
+      <h1 style="margin: 0; font-size: 1.8rem;">Pedido <span style="color: #00f2fe;">#<%= @pedido.numero %></span></h1>
+      <small style="color: #888;">Realizado em <%= @pedido.created_at.strftime("%d/%m/%Y às %H:%M") %></small>
+    </div>
+    <span style="background: rgba(0,242,254,0.15); color: #00f2fe; padding: 0.4rem 1rem; border-radius: 20px; font-weight: bold; font-size: 0.9rem;">
+      <%= @pedido.status.presence || "Pendente" %>
+    </span>
+  </div>
+
+  <!-- Infos Gerais (Cliente, Pagamento, Logística) -->
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+    <div>
+      <small style="color: #888; display: block;">Cliente</small>
+      <strong style="font-size: 1rem;"><%= @pedido.cliente&.nome || "Cliente Avulso" %></strong>
+    </div>
+    <div>
+      <small style="color: #888; display: block;">Forma de Pagamento</small>
+      <strong style="font-size: 1rem;"><%= @pedido.forma_pagamento.presence || "-" %></strong>
+    </div>
+    <div>
+      <small style="color: #888; display: block;">Logística</small>
+      <strong style="font-size: 1rem;"><%= @pedido.tipo_logistica.presence || "-" %></strong>
+    </div>
+  </div>
+
+  <!-- Tabela de Itens -->
+  <h3 style="margin-bottom: 0.8rem; font-size: 1.1rem; color: #00f2fe;">Itens Comprados</h3>
+  <div style="background: rgba(0,0,0,0.2); border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr style="border-bottom: 1px solid #2a3439; color: #888; font-size: 0.85rem;">
+          <th style="padding: 0.75rem 1rem;">Produto</th>
+          <th style="padding: 0.75rem 1rem;">Qtd</th>
+          <th style="padding: 0.75rem 1rem;">Preço Un.</th>
+          <th style="padding: 0.75rem 1rem; text-align: right;">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pedido.item_pedidos.each do |item| %>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 0.75rem 1rem;"><%= item.produto&.nome || "Produto removido" %></td>
+            <td style="padding: 0.75rem 1rem;"><%= item.quantidade %></td>
+            <td style="padding: 0.75rem 1rem;">R$ <%= number_with_precision(item.preco_unitario, precision: 2) %></td>
+            <td style="padding: 0.75rem 1rem; text-align: right; font-weight: bold;">R$ <%= number_with_precision(item.subtotal, precision: 2) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Totalizadores -->
+  <div style="display: flex; justify-content: flex-end; margin-bottom: 2rem;">
+    <div style="width: 250px; background: rgba(0,242,254,0.05); border: 1px solid rgba(0,242,254,0.2); padding: 1rem; border-radius: 8px;">
+      <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold;">
+        <span>Total:</span>
+        <span style="color: #00f2fe;">R$ <%= number_with_precision(@pedido.total, precision: 2) %></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ações -->
+  <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+    <%= link_to "← Voltar para Pedidos", pedidos_path, style: "color: #aaa; text-decoration: none;" %>
+    
+    <div style="display: flex; gap: 0.5rem; align-items: center;">
+      <%= link_to "EDITAR PEDIDO", edit_pedido_path(@pedido), style: "text-decoration: none; padding: 0.5rem 1rem; background: #00f2fe; color: #000; font-weight: bold; border-radius: 6px; font-size: 0.85rem;" %>
+      <%= button_to "Excluir", @pedido, method: :delete, data: { turbo_confirm: "Tem certeza que deseja cancelar/excluir este pedido?" }, form_class: "inline-form", style: "background: #ff4757; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; height: 38px; display: inline-flex; align-items: center; box-sizing: border-box;" %>
+    </div>
+  </div>
+
+</div>

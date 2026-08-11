@@ -1,0 +1,145 @@
+<div style="max-width: 1100px; margin: 1rem auto; color: #fff;">
+  
+  <!-- Cabeçalho -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+    <div>
+      <h1 style="margin: 0; font-size: 1.8rem; font-weight: 800;">📊 RELATÓRIO GERENCIAL</h1>
+    </div>
+    <div style="display: flex; gap: 0.5rem;">
+      <button onclick="window.print()" style="background: #00f2fe; color: #000; border: none; font-weight: bold; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer;">
+        🖨️ Exportar PDF / Imprimir
+      </button>
+    </div>
+  </div>
+
+  <!-- Filtro de Período -->
+  <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 10px; padding: 1rem; margin-bottom: 1.5rem;">
+    <%= form_with url: relatorios_path, method: :get, local: true, style: "display: flex; gap: 1rem; align-items: center;" do |f| %>
+      <span style="color: #888; font-size: 0.9rem;">Período do Relatório:</span>
+      <%= f.date_field :data_inicio, value: @data_inicio, style: "background: #000; border: 1px solid #2a3439; color: #fff; padding: 0.4rem 0.8rem; border-radius: 6px;" %>
+      <span style="color: #888;">até</span>
+      <%= f.date_field :data_fim, value: @data_fim, style: "background: #000; border: 1px solid #2a3439; color: #fff; padding: 0.4rem 0.8rem; border-radius: 6px;" %>
+      <%= f.submit "Filtrar", style: "background: rgba(255,255,255,0.1); color: #fff; border: 1px solid #2a3439; padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer;" %>
+    <% end %>
+  </div>
+
+  <!-- 1. Cards Principais de Desempenho -->
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+    <div style="background: var(--card-bg, #12181b); border: 1px solid #2a3439; padding: 1.2rem; border-radius: 10px;">
+      <small style="color: #888; display: block;">Faturamento</small>
+      <h2 style="margin: 0.4rem 0 0 0; color: #00f2fe; font-size: 1.5rem;">R$ <%= number_with_precision(@faturamento, unit: "R$ ", separator: ",", delimiter: ".") %></h2>
+    </div>
+
+    <div style="background: var(--card-bg, #12181b); border: 1px solid #2a3439; padding: 1.2rem; border-radius: 10px;">
+      <small style="color: #888; display: block;">Receitas</small>
+      <h2 style="margin: 0.4rem 0 0 0; color: #2ed573; font-size: 1.5rem;">R$ <%= number_with_precision(@receitas, unit: "R$ ", separator: ",", delimiter: ".") %></h2>
+    </div>
+
+    <div style="background: var(--card-bg, #12181b); border: 1px solid #2a3439; padding: 1.2rem; border-radius: 10px;">
+      <small style="color: #888; display: block;">Despesas</small>
+      <h2 style="margin: 0.4rem 0 0 0; color: #ff4757; font-size: 1.5rem;">R$ <%= number_with_precision(@despesas, unit: "R$ ", separator: ",", delimiter: ".") %></h2>
+    </div>
+
+    <div style="background: var(--card-bg, #12181b); border: 1px solid #2a3439; padding: 1.2rem; border-radius: 10px;">
+      <small style="color: #888; display: block;">Lucro Líquido</small>
+      <h2 style="margin: 0.4rem 0 0 0; color: <%= @lucro_liquido >= 0 ? '#00f2fe' : '#ff4757' %>; font-size: 1.5rem;">
+        R$ <%= number_with_precision(@lucro_liquido, unit: "R$ ", separator: ",", delimiter: ".") %>
+      </h2>
+    </div>
+  </div>
+
+  <!-- 2. Valorização do Estoque -->
+  <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 10px; padding: 1.2rem; margin-bottom: 1.5rem;">
+    <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: #00f2fe;">🏷️ Valorização do Estoque Atual</h3>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+      <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+        <small style="color: #888; display: block;">Valor a Custo Estimado</small>
+        <strong style="font-size: 1.2rem; color: #ffa502;">R$ <%= number_with_precision(@valor_estoque_custo, unit: "R$ ", separator: ",", delimiter: ".") %></strong>
+      </div>
+      <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+        <small style="color: #888; display: block;">Valor a Preço de Venda</small>
+        <strong style="font-size: 1.2rem; color: #00f2fe;"><%= number_to_currency(@valor_estoque_venda, unit: "R$ ", separator: ",", delimiter: ".") %></strong>
+      </div>
+      <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+        <small style="color: #888; display: block;">Lucro Potencial no Estoque</small>
+        <strong style="font-size: 1.2rem; color: #2ed573;">R$ <%= number_with_precision(@lucro_potencial_estoque, unit: "R$ ", separator: ",", delimiter: ".") %></strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Ponto de Equilíbrio & Ticket Médio -->
+  <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 10px; padding: 1.2rem; margin-bottom: 1.5rem;">
+    <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: #00f2fe;">⚖️ Ponto de Equilíbrio (Break-Even)</h3>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+      <div>
+        <small style="color: #888; display: block;">Despesas do Período</small>
+        <span style="font-size: 1.1rem; font-weight: bold; color: #ff4757;">R$ <%= number_with_precision(@despesas, unit: "R$ ", separator: ",", delimiter: ".") %></span>
+      </div>
+      <div>
+        <small style="color: #888; display: block;">Ticket Médio por Pedido</small>
+        <span style="font-size: 1.1rem; font-weight: bold; color: #fff;">R$ <%= number_with_precision(@ticket_medio, unit: "R$ ", separator: ",", delimiter: ".") %></span>
+      </div>
+      <div>
+        <small style="color: #888; display: block;">Pedidos Necessários p/ Pagar Custos</small>
+        <span style="font-size: 1.1rem; font-weight: bold; color: #ffa502;"><%= @pedidos_break_even %> pedidos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Seção Dupla: Top Produtos & Top Clientes -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+    
+    <!-- Top Produtos -->
+    <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 10px; padding: 1.2rem;">
+      <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: #00f2fe;">🏆 Top Produtos Vendidos</h3>
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
+        <thead>
+          <tr style="border-bottom: 1px solid #2a3439; color: #888;">
+            <th style="padding: 0.5rem;">Produto</th>
+            <th style="padding: 0.5rem; text-align: center;">Qtd</th>
+            <th style="padding: 0.5rem; text-align: right;">Receita</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @top_produtos.each do |item| %>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <td style="padding: 0.5rem; font-weight: bold;"><%= item.nome %></td>
+              <td style="padding: 0.5rem; text-align: center;"><%= item.qtd_total %> un.</td>
+              <td style="padding: 0.5rem; text-align: right; color: #2ed573;">R$ <%= number_with_precision(item.receita_total, unit: "R$ ", separator: ",", delimiter: ".") %></td>
+            </tr>
+          <% end %>
+          <% if @top_produtos.empty? %>
+            <tr><td colspan="3" style="padding: 1rem; text-align: center; color: #888;">Sem vendas no período.</td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Top Clientes -->
+    <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 10px; padding: 1.2rem;">
+      <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: #00f2fe;">⭐ Top Clientes</h3>
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
+        <thead>
+          <tr style="border-bottom: 1px solid #2a3439; color: #888;">
+            <th style="padding: 0.5rem;">Cliente</th>
+            <th style="padding: 0.5rem; text-align: center;">Pedidos</th>
+            <th style="padding: 0.5rem; text-align: right;">Total Comprado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @top_clientes.each do |cliente| %>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <td style="padding: 0.5rem; font-weight: bold;"><%= cliente.nome %></td>
+              <td style="padding: 0.5rem; text-align: center;"><%= cliente.total_pedidos %></td>
+              <td style="padding: 0.5rem; text-align: right; color: #00f2fe;">R$ <%= number_with_precision(cliente.total_comprado, unit: "R$ ", separator: ",", delimiter: ".") %></td>
+            </tr>
+          <% end %>
+          <% if @top_clientes.empty? %>
+            <tr><td colspan="3" style="padding: 1rem; text-align: center; color: #888;">Sem compras no período.</td></tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

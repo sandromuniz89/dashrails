@@ -1,0 +1,45 @@
+<div style="max-width: 1000px; margin: 2rem auto; color: #fff;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="margin: 0; font-size: 1.8rem;">📦 Pedidos</h1>
+    <%= link_to "+ NOVO PEDIDO", new_pedido_path, style: "background: #00f2fe; color: #000; font-weight: bold; padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none;" %>
+  </div>
+
+  <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 12px; overflow: hidden;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr style="border-bottom: 1px solid #2a3439; background: rgba(0,0,0,0.2);">
+          <th style="padding: 1rem;">Nº</th>
+          <th style="padding: 1rem;">Cliente</th>
+          <th style="padding: 1rem;">Status</th>
+          <th style="padding: 1rem;">Pagamento</th>
+          <th style="padding: 1rem;">Total</th>
+          <th style="padding: 1rem; text-align: right;">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pedidos.each do |pedido| %>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 1rem; font-weight: bold; color: #00f2fe;">#<%= pedido.numero %></td>
+            <td style="padding: 1rem;"><%= pedido.cliente&.nome || "Cliente avulso" %></td>
+            <td style="padding: 1rem;">
+              <span style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.85rem;">
+                <%= pedido.status.presence || "Pendente" %>
+              </span>
+            </td>
+            <td style="padding: 1rem;"><%= pedido.forma_pagamento.presence || "-" %></td>
+            <td style="padding: 1rem; font-weight: bold;">R$ <%= number_with_precision(pedido.total, precision: 2) %></td>
+            <td style="padding: 1rem; text-align: right;">
+              <%= link_to "Ver", pedido_path(pedido), style: "color: #00f2fe; text-decoration: none; margin-right: 0.5rem;" %>
+              <%= link_to "Editar", edit_pedido_path(pedido), style: "color: #aaa; text-decoration: none; margin-left: 0.5rem;" %>
+            </td>
+          </tr>
+        <% end %>
+        <% if @pedidos.empty? %>
+          <tr>
+            <td colspan="6" style="padding: 2rem; text-align: center; color: #888;">Nenhum pedido cadastrado ainda.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

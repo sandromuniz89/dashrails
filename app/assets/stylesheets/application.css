@@ -1,0 +1,42 @@
+:root{
+  --bg:#0a1a1a;--surface:#0f2424;--card:#132a2a;--border:#1e3d3d;
+  --teal:#26b8b8;--teal2:#1a9090;
+  --teal-glow:0 0 24px rgba(38,184,184,0.25);
+  --gold:#e8b84b;--green:#2ed87a;--red:#f05555;--orange:#f08c3a;
+  --text:#e8f4f4;--muted:#5a8a8a;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:24px 16px;}
+
+.page-header{max-width:1200px;margin:0 auto 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.page-header h1{font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;}
+.page-header h1 span{color:var(--teal);}
+
+.btn-novo{display:inline-block;background:linear-gradient(135deg,var(--teal2),var(--teal));color:#fff;padding:11px 20px;border-radius:12px;font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;box-shadow:var(--teal-glow);border:none;cursor:pointer;}
+.btn-novo:hover{transform:translateY(-2px);}
+
+.produtos-wrap{max-width:1200px;margin:0 auto;}
+.produtos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+.produto-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;text-decoration:none;color:var(--text);transition:all .2s;display:block;}
+.produto-card:hover{border-color:var(--teal);transform:translateY(-3px);}
+.produto-emoji{font-size:28px;margin-bottom:8px;}
+.produto-nome{font-family:'Outfit',sans-serif;font-weight:700;font-size:16px;margin-bottom:2px;}
+.produto-cat{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.produto-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.produto-preco{font-family:'Outfit',sans-serif;font-weight:800;color:var(--teal);font-size:16px;}
+.produto-estoque{font-size:13px;font-weight:600;}
+.stock-bar{height:5px;background:var(--surface);border-radius:4px;overflow:hidden;}
+.stock-fill{height:100%;border-radius:4px;}
+
+.empty-box{background:var(--card);border:1px dashed var(--border);border-radius:16px;padding:40px;text-align:center;color:var(--muted);}
+
+/* Formulário (new/edit) */
+.form-box{max-width:520px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;}
+.form-box h1{font-family:'Outfit',sans-serif;font-size:20px;margin-bottom:20px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px;font-weight:600;}
+.field input,.field textarea{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;}
+.field input:focus,.field textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(38,184,184,0.1);}
+.btn-salvar{width:100%;padding:13px;background:linear-gradient(135deg,var(--teal2),var(--teal));color:#fff;border:none;border-radius:12px;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-top:8px;box-shadow:var(--teal-glow);}
+.back-link{display:inline-block;margin-top:16px;color:var(--muted);font-size:13px;text-decoration:none;}
+.back-link:hover{color:var(--teal);}

@@ -1,0 +1,57 @@
+<div style="max-width: 600px; margin: 2rem auto; padding: 1.5rem; background-color: var(--card-bg, #12181b); border-radius: 12px; border: 1px solid var(--border-color, #2a3439); color: #fff;">
+  <h1 style="margin: 0 0 1.5rem 0; font-size: 1.6rem; color: #00f2fe;">
+    <%= cliente.new_record? ? "👤 Novo Cliente" : "✏️ Editar Cliente" %>
+  </h1>
+
+  <%= form_with(model: cliente, local: true) do |f| %>
+    <% if cliente.errors.any? %>
+      <div style="color: #ff6b6b; background: rgba(255,107,107,0.1); padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem;">
+        <p style="margin: 0; font-weight: bold;"><%= pluralize(cliente.errors.count, "erro") %> impediram este cliente de ser salvo:</p>
+        <ul style="margin: 0.5rem 0 0 1rem; padding: 0;">
+          <% cliente.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div style="margin-bottom: 1rem;">
+      <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">Nome Completo / Razão Social</label>
+      <%= f.text_field :nome, required: true, style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box;" %>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">Empresa</label>
+      <%= f.text_field :empresa, style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box;" %>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+      <div>
+        <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">Telefone / WhatsApp</label>
+        <%= f.text_field :telefone, style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box;" %>
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">E-mail</label>
+        <%= f.email_field :email, style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box;" %>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+      <div>
+        <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">Cidade</label>
+        <%= f.text_field :cidade, style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box;" %>
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">Estado (UF)</label>
+        <%= f.text_field :estado, maxlength: 2, placeholder: "RJ", style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box; text-transform: uppercase;" %>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+      <%= link_to "← Voltar", clientes_path, style: "color: #aaa; text-decoration: none;" %>
+      <%= f.submit "Salvar Cliente", style: "background: #00f2fe; color: #000; font-weight: bold; padding: 0.6rem 1.5rem; border: none; border-radius: 6px; cursor: pointer;" %>
+    </div>
+  <% end %>
+</div>

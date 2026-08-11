@@ -1,0 +1,39 @@
+<div style="max-width: 600px; margin: 2rem auto; padding: 1.5rem; background-color: var(--card-bg, #12181b); border-radius: 12px; border: 1px solid var(--border-color, #2a3439); color: #fff;">
+  <h1 style="margin: 0 0 1.5rem 0; font-size: 1.6rem; color: #00f2fe;">💳 Novo Lançamento Financeiro</h1>
+
+  <%= form_with(model: @lancamento, url: financeiro_index_path, local: true) do |f| %>
+    <div style="margin-bottom: 1rem;">
+      <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">Descrição</label>
+      <%= f.text_field :descricao, required: true, placeholder: "Ex: Venda de Pedido #1001 ou Conta de Luz", style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box;" %>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+      <div>
+        <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">Tipo de Operação</label>
+        <%= f.select :tipo, [["Receita (Entrada)", "receita"], ["Despesa (Saída)", "despesa"]], {}, style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box;" %>
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">Valor (R$)</label>
+        <%= f.number_field :valor, step: "0.01", required: true, style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box;" %>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+      <div>
+        <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">Data</label>
+        <%= f.date_field :data, value: Date.today, style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box;" %>
+      </div>
+
+      <div>
+        <label style="display: block; margin-bottom: 0.3rem; color: #aaa; font-size: 0.9rem;">Categoria</label>
+        <%= f.text_field :categoria, placeholder: "Ex: Vendas, Fornecedores, Fixo", style: "width: 100%; padding: 0.6rem; background: #000; border: 1px solid #2a3439; color: #fff; border-radius: 6px; box-sizing: border-box;" %>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+      <%= link_to "← Voltar", financeiro_index_path, style: "color: #aaa; text-decoration: none;" %>
+      <%= f.submit "Salvar Lançamento", style: "background: #00f2fe; color: #000; font-weight: bold; padding: 0.6rem 1.5rem; border: none; border-radius: 6px; cursor: pointer;" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,103 @@
+<div style="max-width: 1100px; margin: 1rem auto; color: #fff;">
+  <div style="margin-bottom: 2rem;">
+    <h1 style="margin: 0; font-size: 1.8rem; font-weight: 800;">📊 Visão Geral</h1>
+    <p style="color: #888; margin-top: 0.2rem;">Resumo em tempo real do seu negócio.</p>
+  </div>
+
+  <!-- Cards Superiores de Métricas -->
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-bottom: 2rem;">
+    <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 12px; padding: 1.2rem;">
+      <span style="font-size: 1.8rem;">🛍️</span>
+      <small style="display: block; color: #888; margin-top: 0.5rem;">Faturamento Pedidos</small>
+      <h2 style="margin: 0.2rem 0 0 0; color: #00f2fe; font-size: 1.5rem;">R$ <%= number_with_precision(@total_vendas, precision: 2) %></h2>
+    </div>
+
+    <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 12px; padding: 1.2rem;">
+      <span style="font-size: 1.8rem;">📦</span>
+      <small style="display: block; color: #888; margin-top: 0.5rem;">Total de Pedidos</small>
+      <h2 style="margin: 0.2rem 0 0 0; color: #fff; font-size: 1.5rem;"><%= @total_pedidos %></h2>
+    </div>
+
+    <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 12px; padding: 1.2rem;">
+      <span style="font-size: 1.8rem;">👥</span>
+      <small style="display: block; color: #888; margin-top: 0.5rem;">Clientes Cadastrados</small>
+      <h2 style="margin: 0.2rem 0 0 0; color: #fff; font-size: 1.5rem;"><%= @total_clientes %></h2>
+    </div>
+
+    <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 12px; padding: 1.2rem;">
+      <span style="font-size: 1.8rem;">💰</span>
+      <small style="display: block; color: #888; margin-top: 0.5rem;">Saldo Financeiro</small>
+      <h2 style="margin: 0.2rem 0 0 0; color: <%= @saldo_financeiro >= 0 ? '#2ed573' : '#ff4757' %>; font-size: 1.5rem;">
+        R$ <%= number_with_precision(@saldo_financeiro, precision: 2) %>
+      </h2>
+    </div>
+  </div>
+
+  <!-- Bloco Inferior: Últimos Pedidos + Alerta de Estoque Baixo -->
+  <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+    
+    <!-- Tabela: Últimos Pedidos -->
+    <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 12px; padding: 1.2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="margin: 0; font-size: 1.1rem; color: #00f2fe;">🛍️ Últimos Pedidos</h3>
+        <%= link_to "Ver todos", pedidos_path, style: "color: #888; font-size: 0.85rem; text-decoration: none;" %>
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+        <thead>
+          <tr style="border-bottom: 1px solid #2a3439; color: #666;">
+            <th style="padding: 0.6rem;">Nº</th>
+            <th style="padding: 0.6rem;">Cliente</th>
+            <th style="padding: 0.6rem;">Data</th>
+            <th style="padding: 0.6rem; text-align: right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @ultimos_pedidos.each do |pedido| %>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <td style="padding: 0.6rem; font-weight: bold; color: #00f2fe;">#<%= pedido.numero %></td>
+              <td style="padding: 0.6rem;"><%= pedido.cliente&.nome || "Cliente Geral" %></td>
+              <td style="padding: 0.6rem; color: #aaa;"><%= pedido.created_at.strftime("%d/%m/%H:%M") %></td>
+              <td style="padding: 0.6rem; text-align: right; font-weight: bold;">R$ <%= number_with_precision(pedido.total, precision: 2) %></td>
+            </tr>
+          <% end %>
+          <% if @ultimos_pedidos.empty? %>
+            <tr>
+              <td colspan="4" style="padding: 1.5rem; text-align: center; color: #888;">Nenhum pedido realizado ainda.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Alerta: Estoque Baixo -->
+    <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 12px; padding: 1.2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="margin: 0; font-size: 1.1rem; color: #ffa502;">⚠️ Alerta de Estoque</h3>
+        <%= link_to "Ver estoque", produtos_path, style: "color: #888; font-size: 0.85rem; text-decoration: none;" %>
+      </div>
+
+      <% if @produtos_estoque_baixo.any? %>
+        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.8rem;">
+          <% @produtos_estoque_baixo.each do |prod| %>
+            <li style="display: flex; justify-content: space-between; align-items: center; background: rgba(255, 165, 2, 0.08); padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid rgba(255, 165, 2, 0.2);">
+              <div>
+                <strong style="display: block; font-size: 0.9rem;"><%= prod.nome %></strong>
+                <small style="color: #888;"><%= prod.sku %></small>
+              </div>
+              <span style="background: #ff4757; color: #fff; font-size: 0.8rem; font-weight: bold; padding: 0.2rem 0.6rem; border-radius: 12px;">
+                <%= prod.quantidade %> un.
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <div style="padding: 2rem 1rem; text-align: center; color: #2ed573;">
+          <p style="margin: 0; font-size: 1.5rem;">✅</p>
+          <small style="display: block; margin-top: 0.5rem; color: #888;">Todos os produtos estão com estoque adequado!</small>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>

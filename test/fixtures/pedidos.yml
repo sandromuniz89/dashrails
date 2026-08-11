@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  numero: 1
+  cliente: one
+  total: 9.99
+  status: MyString
+  forma_pagamento: MyString
+  status_pagamento: MyString
+  tipo_logistica: MyString
+  valor_frete: 9.99
+
+two:
+  numero: 1
+  cliente: two
+  total: 9.99
+  status: MyString
+  forma_pagamento: MyString
+  status_pagamento: MyString
+  tipo_logistica: MyString
+  valor_frete: 9.99

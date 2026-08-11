@@ -1,0 +1,25 @@
+<div class="form-box">
+  <h1><%= produto.new_record? ? "Novo Produto" : "Editar Produto" %></h1>
+
+  <%= form_with model: produto do |form| %>
+    <% if produto.errors.any? %>
+      <div style="color:var(--red);font-size:13px;margin-bottom:14px;">
+        <%= pluralize(produto.errors.count, "erro") %> impediram o salvamento.
+      </div>
+    <% end %>
+
+    <div class="field"><%= form.label :nome %><%= form.text_field :nome %></div>
+    <div class="field"><%= form.label :categoria %><%= form.text_field :categoria %></div>
+    <div class="field"><%= form.label :emoji %><%= form.text_field :emoji, placeholder: "👓" %></div>
+    <div class="field"><%= form.label :preco_custo, "Preço de Custo (R$)" %><%= form.text_field :preco_custo %></div>
+    <div class="field"><%= form.label :preco_venda, "Preço de Venda (R$)" %><%= form.text_field :preco_venda %></div>
+    <div class="field"><%= form.label :quantidade %><%= form.number_field :quantidade %></div>
+    <div class="field"><%= form.label :estoque_minimo, "Estoque Mínimo" %><%= form.number_field :estoque_minimo %></div>
+    <div class="field"><%= form.label :codigo %><%= form.text_field :codigo %></div>
+    <div class="field"><%= form.label :obs, "Observações" %><%= form.text_area :obs %></div>
+
+    <%= form.submit (produto.new_record? ? "Salvar Produto" : "Atualizar Produto"), class: "btn-salvar" %>
+  <% end %>
+
+  <%= link_to "← Voltar", produtos_path, class: "back-link" %>
+</div>

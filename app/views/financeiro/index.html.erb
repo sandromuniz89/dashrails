@@ -1,0 +1,67 @@
+<div style="max-width: 1000px; margin: 2rem auto; color: #fff;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1 style="margin: 0; font-size: 1.8rem;">💰 Financeiro</h1>
+    <%= link_to "+ NOVO LANÇAMENTO", new_financeiro_path, style: "background: #00f2fe; color: #000; font-weight: bold; padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none;" %>
+  </div>
+
+  <!-- Cards de Resumo Financeiro -->
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+    <div style="background: var(--card-bg, #12181b); border: 1px solid #2a3439; padding: 1.2rem; border-radius: 10px;">
+      <small style="color: #888;">Receitas (Entradas)</small>
+      <h2 style="margin: 0.5rem 0 0 0; color: #2ed573;">R$ <%= number_with_precision(@total_receitas, precision: 2) %></h2>
+    </div>
+
+    <div style="background: var(--card-bg, #12181b); border: 1px solid #2a3439; padding: 1.2rem; border-radius: 10px;">
+      <small style="color: #888;">Despesas (Saídas)</small>
+      <h2 style="margin: 0.5rem 0 0 0; color: #ff4757;">R$ <%= number_with_precision(@total_despesas, precision: 2) %></h2>
+    </div>
+
+    <div style="background: var(--card-bg, #12181b); border: 1px solid #2a3439; padding: 1.2rem; border-radius: 10px;">
+      <small style="color: #888;">Saldo Geral</small>
+      <h2 style="margin: 0.5rem 0 0 0; color: <%= @saldo_total >= 0 ? '#00f2fe' : '#ff4757' %>;">
+        R$ <%= number_with_precision(@saldo_total, precision: 2) %>
+      </h2>
+    </div>
+  </div>
+
+  <!-- Tabela de Extrato -->
+  <div style="background: var(--card-bg, #12181b); border: 1px solid var(--border-color, #2a3439); border-radius: 12px; overflow: hidden;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr style="border-bottom: 1px solid #2a3439; background: rgba(0,0,0,0.2); color: #888;">
+          <th style="padding: 1rem;">Data</th>
+          <th style="padding: 1rem;">Descrição</th>
+          <th style="padding: 1rem;">Categoria</th>
+          <th style="padding: 1rem;">Tipo</th>
+          <th style="padding: 1rem; text-align: right;">Valor</th>
+          <th style="padding: 1rem; text-align: center;">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @lancamentos.each do |item| %>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 1rem;"><%= item.data&.strftime("%d/%m/%Y") || "-" %></td>
+            <td style="padding: 1rem; font-weight: bold;"><%= item.descricao %></td>
+            <td style="padding: 1rem;"><%= item.categoria.presence || "Geral" %></td>
+            <td style="padding: 1rem;">
+              <span style="padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; font-weight: bold; background: <%= item.tipo == 'receita' ? 'rgba(46, 213, 115, 0.15)' : 'rgba(255, 71, 87, 0.15)' %>; color: <%= item.tipo == 'receita' ? '#2ed573' : '#ff4757' %>;">
+                <%= item.tipo&.upcase %>
+              </span>
+            </td>
+            <td style="padding: 1rem; text-align: right; font-weight: bold; color: <%= item.tipo == 'receita' ? '#2ed573' : '#ff4757' %>;">
+              <%= item.tipo == 'receita' ? '+' : '-' %> R$ <%= number_with_precision(item.valor, precision: 2) %>
+            </td>
+            <td style="padding: 1rem; text-align: center;">
+              <%= button_to "Excluir", financeiro_path(item), method: :delete, data: { turbo_confirm: "Excluir este lançamento?" }, form_class: "inline-form", style: "background: none; border: none; color: #ff4757; cursor: pointer; font-size: 0.85rem;" %>
+            </td>
+          </tr>
+        <% end %>
+        <% if @lancamentos.empty? %>
+          <tr>
+            <td colspan="6" style="padding: 2rem; text-align: center; color: #888;">Nenhum lançamento financeiro registrado.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

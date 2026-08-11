@@ -1,0 +1,59 @@
+<div class="show-container" style="max-width: 600px; margin: 2rem auto; padding: 1.5rem; background-color: var(--card-bg, #12181b); border-radius: 12px; border: 1px solid var(--border-color, #2a3439); color: #fff;">
+  
+  <% if notice.present? %>
+    <p style="color: #00f2fe; background: rgba(0,242,254,0.1); padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem;"><%= notice %></p>
+  <% end %>
+
+  <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+    <span style="font-size: 2.5rem;"><%= @produto.emoji.presence || "📦" %></span>
+    <div>
+      <h2 style="margin: 0; font-size: 1.8rem; font-weight: 700;"><%= @produto.nome %></h2>
+      <span style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.85rem; color: #aaa;">
+        <%= @produto.categoria.presence || "Sem Categoria" %>
+      </span>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+    <div>
+      <small style="color: #888; display: block;">Preço de Custo</small>
+      <strong style="font-size: 1.1rem;">R$ <%= number_with_precision(@produto.preco_custo, precision: 2) %></strong>
+    </div>
+    <div>
+      <small style="color: #888; display: block;">Preço de Venda</small>
+      <strong style="font-size: 1.2rem; color: #00f2fe;">R$ <%= number_with_precision(@produto.preco_venda, precision: 2) %></strong>
+    </div>
+    <div>
+      <small style="color: #888; display: block;">Estoque Atual</small>
+      <span style="font-size: 1.1rem; font-weight: bold;"><%= @produto.quantidade %> un.</span>
+    </div>
+    <div>
+      <small style="color: #888; display: block;">Estoque Mínimo</small>
+      <span style="font-size: 1.1rem; color: #ff6b6b;"><%= @produto.estoque_minimo %> un.</span>
+    </div>
+    <div>
+      <small style="color: #888; display: block;">Código</small>
+      <span><%= @produto.codigo.presence || "-" %></span>
+    </div>
+  </div>
+
+  <% if @produto.obs.present? %>
+    <div style="margin-bottom: 1.5rem;">
+      <small style="color: #888; display: block; margin-bottom: 0.3rem;">Observações</small>
+      <p style="margin: 0; font-size: 0.95rem; line-height: 1.4; color: #ddd; background: rgba(255,255,255,0.03); padding: 0.75rem; border-radius: 6px;">
+        <%= @produto.obs %>
+      </p>
+    </div>
+  <% end %>
+
+  <div style="display: flex; gap: 1rem; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+    <%= link_to "← Voltar", produtos_path, class: "back-link", style: "color: #aaa; text-decoration: none;" %>
+    
+    <div style="display: flex; gap: 0.5rem; align-items: center;">
+      <%= link_to "EDITAR", edit_produto_path(@produto), style: "text-decoration: none; padding: 0.5rem 1rem; background: #00f2fe; color: #000; font-weight: bold; border-radius: 6px; font-size: 0.85rem; height: 38px; display: inline-flex; align-items: center; box-sizing: border-box;" %>
+      
+      <%= button_to "Excluir", @produto, method: :delete, data: { turbo_confirm: "Tem certeza que deseja excluir?" }, form_class: "inline-form", style: "background: #ff4757; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; height: 38px; display: inline-flex; align-items: center; box-sizing: border-box;" %>
+    </div>
+  </div>
+
+</div>

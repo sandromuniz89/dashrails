@@ -7,25 +7,25 @@ O **DashRails** é um sistema completo de gestão empresarial desenvolvido em **
 ## 📸 Prévias da Interface (Screenshots)
 
 ### 📊 Dashboard Principal
-![Dashboard Central](https://i.postimg.cc/234pZ8Y1/dashboard.png)
+![Dashboard Central](https://i.postimg.cc/fWPM1Jgf/dashboard.png)
 
 ### 📦 Gestão de Produtos
-![Módulo de Produtos](https://i.postimg.cc/s1pFhDzm/produtos.png)
+![Módulo de Produtos](https://i.postimg.cc/nVWnNCwy/produtos.png)
 
 ### 🛒 Gestão de Pedidos
-![Módulo de Pedidos](https://i.postimg.cc/0rpgw2vm/pedidos.png)
+![Módulo de Pedidos](https://i.postimg.cc/jq1RBLk8/pedidos.png)
 
 ### 👥 Gestão de Clientes
-![Módulo de Clientes](https://i.postimg.cc/H80fD3zR/clientes.png)
+![Módulo de Clientes](https://i.postimg.cc/x8BYm4zf/clientes.png)
 
 ### 🏢 Gestão de Fornecedores
-![Módulo de Fornecedores](https://i.postimg.cc/G9k0yhRG/fornecedores.png)
+![Módulo de Fornecedores](https://i.postimg.cc/MZLzgvrP/fornecedores.png)
 
 ### 💰 Controle Financeiro
-![Módulo Financeiro](https://i.postimg.cc/vDWRVHyx/financeiro.png)
+![Módulo Financeiro](https://i.postimg.cc/440XjmFP/financeiro.png)
 
 ### 📈 Relatórios Gerenciais
-![Módulo de Relatórios](https://i.postimg.cc/nMv8DcxS/relatorio.png)
+![Módulo de Relatórios](https://i.postimg.cc/wxr9n7Gz/relatorio.png)
 
 ---
 

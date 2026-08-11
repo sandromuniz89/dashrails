@@ -7,3 +7,8 @@ db/schema.rb linguist-generated
 vendor/* linguist-vendored
 config/credentials/*.yml.enc diff=rails_credentials
 config/credentials.yml.enc diff=rails_credentials
+
+# Ignore ERB views in GitHub language statistics
+*.html.erb linguist-detectable=false
+*.erb linguist-detectable=false
+app/views/* linguist-vendored=true
